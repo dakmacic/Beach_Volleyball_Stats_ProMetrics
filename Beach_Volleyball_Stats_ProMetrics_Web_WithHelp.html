@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beach Volleyball Stats — Pro Metrics (Web)</title>
+<style>
+  body{font-family:Arial, sans-serif;margin:0;padding:0;}
+  header{background:#004aad;color:#fff;padding:12px;}
+  header h1{margin:0;font-size:20px;}
+  main{padding:16px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{border:1px solid #ccc;padding:6px;text-align:center;}
+  th{background:#f6f6f6;position:sticky;top:0;}
+  td.name,td.position{text-align:left;}
+  .toolbar{margin-bottom:12px;}
+  .toolbar button{margin-right:8px;padding:6px 10px;}
+  .help-section{margin-top:20px;padding:12px;border:1px solid #ccc;background:#fafafa;}
+  .help-section h2{margin-top:0;}
+  .help-section ul{padding-left:20px;}
+</style>
+</head>
+<body>
+<header><h1>Beach Volleyball Stats — Pro Metrics (Web)</h1></header>
+<main>
+<div class="toolbar">
+  <button onclick="toggleHelp()">Toggle Help</button>
+</div>
+<table>
+<thead>
+<tr>
+<th title="Full name of the player">Player Name</th>
+<th title="Number on the player's uniform">Jersey #</th>
+<th title="Role on the team (Blocker/Defender)">Position</th>
+<th title="Total attack attempts">Attacks</th>
+<th title="Successful attacks resulting in a point">Kills</th>
+<th title="Failed attacks (out, net, blocked)">Attack Errors</th>
+<th title="Kills ÷ Attacks × 100">Attack %</th>
+<th title="(Kills − Attack Errors) ÷ Attacks">Hitting Efficiency</th>
+<th title="Successful blocks">Blocks</th>
+<th title="Defensive saves">Digs</th>
+<th title="Total serves attempted">Serves</th>
+<th title="Serves that score directly">Aces</th>
+<th title="Faults on serve">Serve Errors</th>
+<th title="Aces ÷ Serves × 100">Ace %</th>
+<th title="Serve Errors ÷ Serves × 100">Serve Err %</th>
+<th title="Times player/team received serve">Receive Opps</th>
+<th title="Successful sideouts">Sideouts</th>
+<th title="Sideouts ÷ Receive Opps × 100">Sideout %</th>
+<th title="Reception errors">Recv Err</th>
+<th title="Reception Errors ÷ Receive Opps × 100">Recv Err %</th>
+<th title="Times opponent served">Opp Serve Opps</th>
+<th title="Points scored while opponent served">Break Pts</th>
+<th title="Break Points ÷ Opp Serve Opps × 100">Break Pt %</th>
+<th title="Total points scored">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr><td colspan="24">(Dynamic rows go here)</td></tr>
+</tbody>
+</table>
+<div id="help" class="help-section" style="display:none;">
+<h2>Column Definitions</h2>
+<ul>
+<li><strong>Player Name</strong>: Athlete’s full name.</li>
+<li><strong>Jersey #</strong>: Number on the player’s uniform.</li>
+<li><strong>Position</strong>: Role on the team (Blocker or Defender).</li>
+<li><strong>Attacks</strong>: Total attack attempts.</li>
+<li><strong>Kills</strong>: Successful attacks that result in a point.</li>
+<li><strong>Attack Errors</strong>: Failed attacks (hit out, into net, or blocked).</li>
+<li><strong>Attack %</strong>: Percentage of attacks that are kills (Kills ÷ Attacks × 100).</li>
+<li><strong>Hitting Efficiency</strong>: (Kills − Attack Errors) ÷ Attacks.</li>
+<li><strong>Blocks</strong>: Successful blocks.</li>
+<li><strong>Digs</strong>: Defensive saves.</li>
+<li><strong>Serves</strong>: Total serves attempted.</li>
+<li><strong>Aces</strong>: Serves that score directly.</li>
+<li><strong>Serve Errors</strong>: Faults on serve.</li>
+<li><strong>Ace %</strong>: Aces ÷ Serves × 100.</li>
+<li><strong>Serve Err %</strong>: Serve Errors ÷ Serves × 100.</li>
+<li><strong>Receive Opps</strong>: Times player/team received serve.</li>
+<li><strong>Sideouts</strong>: Successful sideouts.</li>
+<li><strong>Sideout %</strong>: Sideouts ÷ Receive Opps × 100.</li>
+<li><strong>Recv Err</strong>: Reception errors.</li>
+<li><strong>Recv Err %</strong>: Reception Errors ÷ Receive Opps × 100.</li>
+<li><strong>Opp Serve Opps</strong>: Times opponent served.</li>
+<li><strong>Break Pts</strong>: Points scored while opponent served.</li>
+<li><strong>Break Pt %</strong>: Break Points ÷ Opp Serve Opps × 100.</li>
+<li><strong>Points</strong>: Total points scored by the player.</li>
+</ul>
+</div>
+</main>
+<script>
+function toggleHelp(){
+  var h=document.getElementById('help');
+  h.style.display=(h.style.display==='none')?'block':'none';
+}
+</script>
+</body>
+</html>
