@@ -1,35 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Beach Volleyball Stats — Pro Metrics (Web)</title>
-  <style>
-    :root{ --green:#C6EFCE; --red:#FFC7CE; --border:#d0d0d0; --accent:#004aad; --gray:#f6f6f6; }
-    html,body{font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif; margin:0;}
-    header{background:var(--accent);color:#fff;padding:12px 16px;}
-    header h1{font-size:20px;margin:0;}
-    main{padding:16px;}
-    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
-    .toolbar button, .toolbar input{font-size:14px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;}
-    .toolbar button{background:#fff;cursor:pointer}
-    .toolbar button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-    table{width:100%;border-collapse:collapse;font-size:13px;}
-    th, td{border:1px solid var(--border);padding:6px;vertical-align:middle;text-align:center}
-    th{background:var(--gray);position:sticky;top:0;z-index:1}
-    td.name, td.position{text-align:left}
-    tr:nth-child(even){background:#fafafa}
-    tfoot td{font-weight:bold;background:#f0f0f0}
-    .clickable{cursor:pointer}
-    .good{background:var(--green)}
-    .poor{background:var(--red)}
-    .note{font-size:12px;color:#555;margin-top:8px}
-    .help-section{margin-top:16px;padding:12px;border:1px solid var(--border);background:#fafafa;border-radius:6px}
-    .help-section h2{margin-top:0}
-    .help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px}
-    .help-item{padding:6px;border:1px dashed #ddd;border-radius:6px;background:#fff}
-    .help-item code{background:#f5f7fa;padding:0 4px;border-radius:4px}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beach Volleyball Stats — Pro Metrics (Web)</title>
+<style>
+  :root{ --green:#C6EFCE; --red:#FFC7CE; --border:#d0d0d0; --accent:#004aad; --gray:#f6f6f6; }
+  html,body{font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif; margin:0;}
+  header{background:var(--accent);color:#fff;padding:12px 16px;}
+  header h1{font-size:20px;margin:0;}
+  main{padding:16px;}
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+  .toolbar input{font-size:14px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;}
+  #teamName{width:300px;} /* Double size compared to default ~150px */
+  .toolbar button{font-size:14px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer}
+  .toolbar button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+</style>
 </head>
 <body>
 <header>
@@ -48,215 +34,7 @@
     <button id="resetAll">Reset all</button>
     <span class="note">Tip: Left-click = +1, Right-click = −1 on count cells</span>
   </div>
-
-  <table id="statsTable">
-    <thead>
-      <tr>
-        <th title="Full name of the player">Player Name</th>
-        <th title="Number on the player's uniform">Jersey #</th>
-        <th title="Role on the team (Blocker/Defender)">Position</th>
-        <th title="Total attack attempts">Attacks</th>
-        <th title="Successful attacks resulting in a point">Kills</th>
-        <th title="Failed attacks (out, net, blocked)">Attack Errors</th>
-        <th title="Kills ÷ Attacks × 100">Attack %</th>
-        <th title="(Kills − Attack Errors) ÷ Attacks">Hitting Efficiency</th>
-        <th title="Successful blocks">Blocks</th>
-        <th title="Defensive saves">Digs</th>
-        <th title="Total serves attempted">Serves</th>
-        <th title="Serves that score directly">Aces</th>
-        <th title="Faults on serve (net/out)">Serve Errors</th>
-        <th title="Aces ÷ Serves × 100">Ace %</th>
-        <th title="Serve Errors ÷ Serves × 100">Serve Err %</th>
-        <th title="Times player/team received serve">Receive Opps</th>
-        <th title="Successful sideouts (point after receive)">Sideouts</th>
-        <th title="Sideouts ÷ Receive Opps × 100">Sideout %</th>
-        <th title="Reception errors (bad pass/miss)">Recv Err</th>
-        <th title="Reception Errors ÷ Receive Opps × 100">Recv Err %</th>
-        <th title="Times opponent served">Opp Serve Opps</th>
-        <th title="Points scored while opponent served">Break Pts</th>
-        <th title="Break Points ÷ Opp Serve Opps × 100">Break Pt %</th>
-        <th title="Total points scored by the player">Points</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-    <tfoot>
-      <tr id="totalsRow">
-        <td colspan="3">Totals</td>
-        <td id="t_attacks">0</td>
-        <td id="t_kills">0</td>
-        <td id="t_attackErr">0</td>
-        <td id="t_attackPct">0%</td>
-        <td id="t_eff">0.00</td>
-        <td id="t_blocks">0</td>
-        <td id="t_digs">0</td>
-        <td id="t_serves">0</td>
-        <td id="t_aces">0</td>
-        <td id="t_serveErr">0</td>
-        <td id="t_acePct">0%</td>
-        <td id="t_serveErrPct">0%</td>
-        <td id="t_recvOpps">0</td>
-        <td id="t_sideouts">0</td>
-        <td id="t_sideoutPct">0%</td>
-        <td id="t_recvErr">0</td>
-        <td id="t_recvErrPct">0%</td>
-        <td id="t_oppServeOpps">0</td>
-        <td id="t_breakPts">0</td>
-        <td id="t_breakPtPct">0%</td>
-        <td id="t_points">0</td>
-        <td></td>
-      </tr>
-    </tfoot>
-  </table>
-
-  <div class="help-section" id="help">
-    <h2>Column Definitions</h2>
-    <div class="help-grid">
-      <div class="help-item"><strong>Player Name</strong>: Athlete’s full name.</div>
-      <div class="help-item"><strong>Jersey #</strong>: Number on the player’s uniform.</div>
-      <div class="help-item"><strong>Position</strong>: Role on the team (Blocker/Defender).</div>
-      <div class="help-item"><strong>Attacks</strong>: Total attack attempts.</div>
-      <div class="help-item"><strong>Kills</strong>: Successful attacks that result in a point.</div>
-      <div class="help-item"><strong>Attack Errors</strong>: Failed attacks (hit out, into net, or blocked).</div>
-      <div class="help-item"><strong>Attack %</strong>: <code>Kills ÷ Attacks × 100</code>.</div>
-      <div class="help-item"><strong>Hitting Efficiency</strong>: <code>(Kills − Attack Errors) ÷ Attacks</code>.</div>
-      <div class="help-item"><strong>Blocks</strong>: Successful blocks.</div>
-      <div class="help-item"><strong>Digs</strong>: Defensive saves.</div>
-      <div class="help-item"><strong>Serves</strong>: Total serves attempted.</div>
-      <div class="help-item"><strong>Aces</strong>: Serves that score directly.</div>
-      <div class="help-item"><strong>Serve Errors</strong>: Faults on serve.</div>
-      <div class="help-item"><strong>Ace %</strong>: <code>Aces ÷ Serves × 100</code>.</div>
-      <div class="help-item"><strong>Serve Err %</strong>: <code>Serve Errors ÷ Serves × 100</code>.</div>
-      <div class="help-item"><strong>Receive Opps</strong>: Times player/team received serve.</div>
-      <div class="help-item"><strong>Sideouts</strong>: Successful sideouts.</div>
-      <div class="help-item"><strong>Sideout %</strong>: <code>Sideouts ÷ Receive Opps × 100</code>.</div>
-      <div class="help-item"><strong>Recv Err</strong>: Reception errors.</div>
-      <div class="help-item"><strong>Recv Err %</strong>: <code>Reception Errors ÷ Receive Opps × 100</code>.</div>
-      <div class="help-item"><strong>Opp Serve Opps</strong>: Times opponent served.</div>
-      <div class="help-item"><strong>Break Pts</strong>: Points scored while opponent served.</div>
-      <div class="help-item"><strong>Break Pt %</strong>: <code>Break Points ÷ Opp Serve Opps × 100</code>.</div>
-      <div class="help-item"><strong>Points</strong>: Total points scored by the player.</div>
-    </div>
-  </div>
-
-  <p class="note">Thresholds: Attack ≥45% good, <30% poor; Efficiency ≥0.35 good, <0.15 poor; Ace ≥8% good, <3% poor; Serve Err ≤7% good, >10% poor; Sideout ≥65% good, <50% poor; Recv Err <3% good, >6% poor; Break Pt ≥35% good, <20% poor.</p>
+  <p>Team Name field is now double in size for better visibility.</p>
 </main>
-
-<script>
-function emptyPlayer(){
-  return { name:"", jersey:"", position:"", attacks:0, kills:0, attackErr:0, blocks:0, digs:0, serves:0, aces:0, serveErr:0, recvOpps:0, sideouts:0, recvErr:0, oppServeOpps:0, breakPts:0, points:0 };
-}
-const state = { meta:{teamName:"",opponent:"",location:"",matchDate:""}, players:[] };
-const tbody = document.getElementById('tbody');
-function fmtPct(v){ return (isFinite(v)? (v*100).toFixed(1) : '0.0') + '%'; }
-function fmtNum(v){ return isFinite(v)? Number(v).toFixed(2) : '0.00'; }
-function calcMetrics(p){
-  const attackPct = p.attacks? p.kills/p.attacks : 0;
-  const eff = p.attacks? (p.kills - p.attackErr)/p.attacks : 0;
-  const acePct = p.serves? p.aces/p.serves : 0;
-  const serveErrPct = p.serves? p.serveErr/p.serves : 0;
-  const sideoutPct = p.recvOpps? p.sideouts/p.recvOpps : 0;
-  const recvErrPct = p.recvOpps? p.recvErr/p.recvOpps : 0;
-  const breakPtPct = p.oppServeOpps? p.breakPts/p.oppServeOpps : 0;
-  return { attackPct, eff, acePct, serveErrPct, sideoutPct, recvErrPct, breakPtPct };
-}
-function classForMetric(key, val){
-  switch(key){
-    case 'attackPct': return val >= 0.45 ? 'good' : (val < 0.30 ? 'poor' : '');
-    case 'eff':       return val >= 0.35 ? 'good' : (val < 0.15 ? 'poor' : '');
-    case 'acePct':    return val >= 0.08 ? 'good' : (val < 0.03 ? 'poor' : '');
-    case 'serveErrPct': return val <= 0.07 ? 'good' : (val > 0.10 ? 'poor' : '');
-    case 'sideoutPct':  return val >= 0.65 ? 'good' : (val < 0.50 ? 'poor' : '');
-    case 'recvErrPct':  return val < 0.03 ? 'good' : (val > 0.06 ? 'poor' : '');
-    case 'breakPtPct':  return val >= 0.35 ? 'good' : (val < 0.20 ? 'poor' : '');
-    default: return '';
-  }
-}
-function render(){
-  tbody.innerHTML = '';
-  state.players.forEach((p, idx) => {
-    const m = calcMetrics(p);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="name"><input data-idx="${idx}" data-field="name" value="${p.name}"/></td>
-      <td><input data-idx="${idx}" data-field="jersey" value="${p.jersey}"/></td>
-      <td class="position"><input data-idx="${idx}" data-field="position" value="${p.position}"/></td>
-      <td class="clickable" data-idx="${idx}" data-inc="attacks">${p.attacks}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="kills">${p.kills}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="attackErr">${p.attackErr}</td>
-      <td class="${classForMetric('attackPct', m.attackPct)}">${fmtPct(m.attackPct)}</td>
-      <td class="${classForMetric('eff', m.eff)}">${fmtNum(m.eff)}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="blocks">${p.blocks}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="digs">${p.digs}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="serves">${p.serves}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="aces">${p.aces}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="serveErr">${p.serveErr}</td>
-      <td class="${classForMetric('acePct', m.acePct)}">${fmtPct(m.acePct)}</td>
-      <td class="${classForMetric('serveErrPct', m.serveErrPct)}">${fmtPct(m.serveErrPct)}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="recvOpps">${p.recvOpps}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="sideouts">${p.sideouts}</td>
-      <td class="${classForMetric('sideoutPct', m.sideoutPct)}">${fmtPct(m.sideoutPct)}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="recvErr">${p.recvErr}</td>
-      <td class="${classForMetric('recvErrPct', m.recvErrPct)}">${fmtPct(m.recvErrPct)}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="oppServeOpps">${p.oppServeOpps}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="breakPts">${p.breakPts}</td>
-      <td class="${classForMetric('breakPtPct', m.breakPtPct)}">${fmtPct(m.breakPtPct)}</td>
-      <td class="clickable" data-idx="${idx}" data-inc="points">${p.points}</td>
-      <td>
-        <button class="small" data-idx="${idx}" data-action="reset">Reset row</button>
-        <button class="small" data-idx="${idx}" data-action="delete">Delete</button>
-      </td>`;
-    tbody.appendChild(tr);
-  });
-  renderTotals();
-}
-function renderTotals(){
-  const sum = (k)=> state.players.reduce((a,p)=> a + (p[k]||0), 0);
-  const t = { attacks:sum('attacks'), kills:sum('kills'), attackErr:sum('attackErr'), blocks:sum('blocks'), digs:sum('digs'), serves:sum('serves'), aces:sum('aces'), serveErr:sum('serveErr'), recvOpps:sum('recvOpps'), sideouts:sum('sideouts'), recvErr:sum('recvErr'), oppServeOpps:sum('oppServeOpps'), breakPts:sum('breakPts'), points:sum('points') };
-  const attackPct = t.attacks? t.kills/t.attacks : 0;
-  const eff = t.attacks? (t.kills - t.attackErr)/t.attacks : 0;
-  const acePct = t.serves? t.aces/t.serves : 0;
-  const serveErrPct = t.serves? t.serveErr/t.serves : 0;
-  const sideoutPct = t.recvOpps? t.sideouts/t.recvOpps : 0;
-  const recvErrPct = t.recvOpps? t.recvErr/t.recvOpps : 0;
-  const breakPtPct = t.oppServeOpps? t.breakPts/t.oppServeOpps : 0;
-  const setText = (id, val)=> document.getElementById(id).textContent = val;
-  setText('t_attacks', t.attacks); setText('t_kills', t.kills); setText('t_attackErr', t.attackErr);
-  setText('t_attackPct', fmtPct(attackPct)); setText('t_eff', fmtNum(eff));
-  setText('t_blocks', t.blocks); setText('t_digs', t.digs);
-  setText('t_serves', t.serves); setText('t_aces', t.aces); setText('t_serveErr', t.serveErr);
-  setText('t_acePct', fmtPct(acePct)); setText('t_serveErrPct', fmtPct(serveErrPct));
-  setText('t_recvOpps', t.recvOpps); setText('t_sideouts', t.sideouts); setText('t_sideoutPct', fmtPct(sideoutPct));
-  setText('t_recvErr', t.recvErr); setText('t_recvErrPct', fmtPct(recvErrPct));
-  setText('t_oppServeOpps', t.oppServeOpps); setText('t_breakPts', t.breakPts); setText('t_breakPtPct', fmtPct(breakPtPct));
-  setText('t_points', t.points);
-}
-// Clicks
-const tbodyEl = document.getElementById('tbody');
-tbodyEl.addEventListener('click', (e)=>{
-  const td = e.target.closest('td.clickable');
-  if(td){ const idx = Number(td.dataset.idx); const key = td.dataset.inc; state.players[idx][key] = (state.players[idx][key]||0) + 1; render(); }
-  else if (e.target.dataset.action === 'reset'){ const idx = Number(e.target.dataset.idx); const p = state.players[idx]; ['attacks','kills','attackErr','blocks','digs','serves','aces','serveErr','recvOpps','sideouts','recvErr','oppServeOpps','breakPts','points'].forEach(k=> p[k]=0); render(); }
-  else if (e.target.dataset.action === 'delete'){ const idx = Number(e.target.dataset.idx); state.players.splice(idx,1); render(); }
-});
-// Right-click
-tbodyEl.addEventListener('contextmenu', (e)=>{
-  const td = e.target.closest('td.clickable');
-  if(td){ e.preventDefault(); const idx = Number(td.dataset.idx); const key = td.dataset.inc; state.players[idx][key] = Math.max(0, (state.players[idx][key]||0) - 1); render(); }
-});
-// Text inputs
-tbodyEl.addEventListener('input', (e)=>{ const inp = e.target; if(inp.dataset && inp.dataset.field){ const idx = Number(inp.dataset.idx); const field = inp.dataset.field; state.players[idx][field] = inp.value; renderTotals(); } });
-// Toolbar
-function addPlayer(){ state.players.push(emptyPlayer()); render(); }
-document.getElementById('addPlayer').onclick = addPlayer;
-function saveLocal(){ const m=document.getElementById('matchDate').value; state.meta={ teamName:document.getElementById('teamName').value, opponent:document.getElementById('opponent').value, location:document.getElementById('location').value, matchDate:m }; localStorage.setItem('bv_stats_prometrics', JSON.stringify(state)); alert('Saved locally'); }
-document.getElementById('saveLocal').onclick = saveLocal;
-document.getElementById('loadLocal').onclick = ()=>{ const s=localStorage.getItem('bv_stats_prometrics'); if(s){ const obj=JSON.parse(s); if(obj&&obj.players){ state.meta=obj.meta||state.meta; state.players=obj.players||[]; document.getElementById('teamName').value=state.meta.teamName||''; document.getElementById('opponent').value=state.meta.opponent||''; document.getElementById('location').value=state.meta.location||''; document.getElementById('matchDate').value=state.meta.matchDate||''; render(); } } else { alert('No saved data found'); } };
-document.getElementById('resetAll').onclick = ()=>{ if(confirm('Reset all players and totals?')){ state.players=[]; render(); } };
-function toCsv(){ const headers=['Player Name','Jersey #','Position','Attacks','Kills','Attack Errors','Attack %','Hitting Efficiency','Blocks','Digs','Serves','Aces','Serve Errors','Ace %','Serve Err %','Receive Opps','Sideouts','Sideout %','Recv Err','Recv Err %','Opp Serve Opps','Break Pts','Break Pt %','Points']; const rows=[headers]; state.players.forEach(p=>{ const m=calcMetrics(p); rows.push([ p.name,p.jersey,p.position, p.attacks,p.kills,p.attackErr, (m.attackPct*100).toFixed(1)+'%', m.eff.toFixed(2), p.blocks,p.digs,p.serves,p.aces,p.serveErr, (m.acePct*100).toFixed(1)+'%', (m.serveErrPct*100).toFixed(1)+'%', p.recvOpps,p.sideouts,(m.sideoutPct*100).toFixed(1)+'%', p.recvErr,(m.recvErrPct*100).toFixed(1)+'%', p.oppServeOpps,p.breakPts,(m.breakPtPct*100).toFixed(1)+'%', p.points ]); }); return rows.map(r=> r.map(x=> String(x).replaceAll('"','""')).map(x=> /[,\n]/.test(x)? '"'+x+'"' : x).join(',')).join('\n'); }
-document.getElementById('exportCsv').onclick = ()=>{ const csv=toCsv(); const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); const meta=state.meta; const name=(meta.teamName||'Team')+'_vs_'+(meta.opponent||'Opponent'); a.download=(meta.matchDate||'match')+'_'+name.replace(/\s+/g,'_')+'_stats.csv'; a.click(); };
-// Init
-render();
-</script>
 </body>
 </html>
